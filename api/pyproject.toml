@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = ""
+authors = ["hermann-web <hermannagossou6@gmail.com>"]
+readme = "readme.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.108.0"
+uvicorn = "^0.25.0"
+python-multipart = "^0.0.6"
+
+pypdf2 = {version = "^3.0.1", extras = ["pdf_support"]}
+chardet = {version = "^5.2.0", extras = ["pdf_support"]}
+
+[tool.poetry.group.dev.dependencies]
+isort = "^5.13.2"
+black = "^23.12.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 88
+
+# [tool.poetry.scripts]
+# format = "isort . && black ."
+
+# [tool.poetry.scripts]
+# start = "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
