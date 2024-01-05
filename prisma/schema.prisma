@@ -25,6 +25,7 @@ model Subscriptions {
 enum ToolType {
   Base64Encoder
   Base64ImageEncoder
+  FileEncodingDetector
   CharacterAndWordCounter
   ColorConverter
   DiffViewer

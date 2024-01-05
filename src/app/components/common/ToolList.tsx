@@ -41,6 +41,10 @@ export const toolList: ToolOption[] = [
     path: "/tools/base64imageencoder",
   },
   {
+    name: "File Encoding Detector",
+    path: "/tools/file-encoding-detector",
+  },
+  {
     name: "Url Parser",
     path: "/tools/url-parser",
   },

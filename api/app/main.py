@@ -16,5 +16,5 @@ def hello_world():
 
 
 app.include_router(
-    encoding_handling_routes.router, prefix="/encoding", tags=["encoding"]
+    encoding_handling_routes.router, prefix="/api/encoding", tags=["encoding"]
 )

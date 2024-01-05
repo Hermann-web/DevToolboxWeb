@@ -3,7 +3,19 @@ from typing import Any, Tuple
 import chardet
 from fastapi import APIRouter, File, HTTPException, UploadFile
 
-from .shemas import FileEncodingResponse
+from pydantic import BaseModel
+
+
+class FileEncodingRequest(BaseModel):
+    file: bytes
+
+
+class FileEncodingResponse(BaseModel):
+    file_name: str
+    encoding: str
+    confidence: float
+
+
 
 router = APIRouter()
 
