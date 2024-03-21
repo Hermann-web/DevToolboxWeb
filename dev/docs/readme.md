@@ -227,3 +227,10 @@ source ./dev/scripts/run-post-build.sh
 
 The application should now be running smoothly and accessible on [localhost:3000](http://localhost:3000).
 
+## Linter Setup
+
+To maintain code quality, linting scripts have been added for markdown files, FastAPI Python files, and TypeScript files in the client. Run the linting script:
+
+```bash
+source ./dev/scripts/run-lint.sh
+```

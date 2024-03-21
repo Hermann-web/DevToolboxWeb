@@ -2,7 +2,6 @@ from typing import Any, Tuple
 
 import chardet
 from fastapi import APIRouter, File, HTTPException, UploadFile
-
 from pydantic import BaseModel
 
 
@@ -14,7 +13,6 @@ class FileEncodingResponse(BaseModel):
     file_name: str
     encoding: str
     confidence: float
-
 
 
 router = APIRouter()

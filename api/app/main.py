@@ -15,6 +15,4 @@ def hello_world():
     return {"message": "Hello World"}
 
 
-app.include_router(
-    encoding_handling_routes.router, prefix="/api/encoding", tags=["encoding"]
-)
+app.include_router(encoding_handling_routes.router, prefix="/api/encoding", tags=["encoding"])
