@@ -2,10 +2,10 @@
 
 ## Introduction
 
-This repository is a fork of [YourAverageTechBro/DevToolboxWeb](https://github.com/YourAverageTechBro/DevToolboxWeb/), containing the codebase of a Next.js app available online at [devtoolbox-rho.vercel.app](https://devtoolbox-rho.vercel.app). This application offers various processing tools commonly used by developers. The authentication is handled by [cleck], and [prisma] is utilized for database integration.
+This repository is a fork of [YourAverageTechBro/DevToolboxWeb](https://github.com/YourAverageTechBro/DevToolboxWeb/), containing the codebase of a Next.js app available online at [devtoolbox-rho.vercel.app](https://devtoolbox-rho.vercel.app). This application offers various processing tools commonly used by developers. The authentication is handled by [Clerk](https://clerk.com), and [Prisma](https://www.prisma.io) is utilized for database integration.
 
 **Added Functionality**
-I have extended this project by integrating a backend to introduce additional functionalities through a Python API. For the backend, I employed FastAPI and integrated it with the frontend in the [next.config.js](./next.config.js) file, building upon the work of [Diego Valdez](https://github.com/digitros/nextjs-fastapi).
+I have extended this project by integrating a backend to introduce additional functionalities through a Python API. For the backend, I employed FastAPI and integrated it with the frontend in the [next.config.js](../next.config.js) file, building upon the work of [Diego Valdez](https://github.com/digitros/nextjs-fastapi).
 
 This tutorial demonstrates how to set up and run the application locally, including the backend.
 
@@ -103,7 +103,9 @@ npx prisma migrate dev --name init
 npx prisma db push
 ```
 
-This process is automated in the [run-post-build.sh](./run-post-build.sh) script.
+This process is automated in the [run-post-build.sh](./scripts/run-post-build.sh) script.
+
+??? note "the last command was found [here](https://github.com/prisma/prisma/issues/10771#issuecomment-1035424831). Seems also, there is [another command for prod](https://github.com/prisma/prisma/issues/10771#issuecomment-1065935613)"
 
 ## Authentication Setup with [Clerk](https://clerk.com)
 
@@ -144,6 +146,8 @@ uvicorn app.main:app --port 8000 --reload
 
 The server will be running on [`localhost:8000`](http://localhost:8000), accessible through the browser. You can check the endpoint [`/api/python`](http://localhost:8000/api/python). Additionally, there is a Swagger documentation available at [/docs](http://localhost:8000/docs).
 
+![Api view](./assets/api-view.png)
+
 - Before each commit, ensure formatting:
 
 ```bash
@@ -164,36 +168,38 @@ npm install
 npm run dev
 ```
 
+![web view default](./assets/web-view-default.png)
+
 ## Docker-compose with All Three Projects
 
 Instead of running separate Docker containers for each service, a single `docker-compose.yml` file is used to run all three services simultaneously.
 
 ### Docker Compose Configuration
 
-I've created a [docker-compose file](./docker-compose.yml) that orchestrates the following services:
+I've created a [docker-compose file](../docker-compose.yml) that orchestrates the following services:
 
 - **Prisma DB (`postgres`):**
   - Port: `postgres:5432`
   - Accessible locally: `localhost:5433`
-  - Using the env file [`./prisma/.prisma.env`](./prisma/.prisma.env)
+  - Using the env file [`./prisma/.prisma.env`](../prisma/.prisma.env)
 
 - **API (`FastAPI`):**
   - Port: `fastapi:8000`
   - Accessible locally: `localhost:8000`
-  - Using the Docker file [`./api/Dockerfile`](./api/Dockerfile)
+  - Using the Docker file [`./api/Dockerfile`](../api/Dockerfile)
 
 - **Client (`Next.js`):**
   - Port: `nextjs:3000`
   - Accessible locally: `localhost:3000`
-  - Using the Dockerfile [`./Dockerfile-dev`](./Dockerfile-dev)
-  - Using the env file [`.env.docker`](./.env.docker), a copy of the `.env` file where `localhost` is replaced with `postgres`
+  - Using the Dockerfile [`./Dockerfile-dev`](../Dockerfile-dev)
+  - Using the env file [`.env.docker`](../.env.docker), a copy of the `.env` file where `localhost` is replaced with `postgres`
   - Dependencies on the above two services
 
 ### Setup Instructions
 
 Before running the Docker containers, ensure the `.env.docker` file is set up properly:
 
-- If you have an `.env` file, you can run this command to create the `.env.docker` file:
+- If you have an [`.env`](../.env) file, you can run this command to create the `.env.docker` file:
 
 ```bash
 cat .env | tr "@localhost" "@fastapi" > .env.docker 
@@ -209,7 +215,7 @@ Then, update it with your database specifications.
 
 ### Running the Docker Containers
 
-To streamline this process, run the Docker containers using [docker-compose](./docker-compose.yml):
+To streamline this process, run the Docker containers using [docker-compose](../docker-compose.yml):
 
 ```bash
 docker-compose up
@@ -217,7 +223,7 @@ docker-compose up
 
 ### Database Migration
 
-After running the containers, migrate the database using [the script](./run-post-build.sh):
+After running the containers, migrate the database using [the script](./scripts/run-post-build.sh):
 
 ```bash
 source ./dev/scripts/run-post-build.sh
@@ -225,7 +231,13 @@ source ./dev/scripts/run-post-build.sh
 
 ### Accessing the Application
 
-The application should now be running smoothly and accessible on [localhost:3000](http://localhost:3000).
+The application should now be running smoothly and accessible on [localhost:3000](http://localhost:3000/tools/diff-viewer).
+
+![web view - tools](./assets/web-view-tools.png)
+
+As starter, i've added a [file encoding detector](http://localhost:3000/tools/file-encoding-detector) you can test out
+
+![web view - file converter](./assets/web-view-file-converter.png)
 
 ## Linter Setup
 
