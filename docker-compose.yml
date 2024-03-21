@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: prisma-db
+    restart: always
+    env_file:
+      - prisma/.prisma.env
+    ports:
+      - "5433:5432"
+
+  nextjs:
+    container_name: nextjs-container
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    env_file:
+        - .env.docker
+    ports:
+      - "3000:3000"  # Expose Next.js development server port
+    volumes:
+      - ./:/app/  # Mount local client directory to container
+    links:
+      - postgres
+      - fastapi
+    depends_on:
+      - postgres
+      - fastapi
+
+  fastapi:
+    container_name: api-container
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"  # Expose FastAPI server port
+    volumes:
+      - ./api:/app/api  # Mount local client directory to container
+    environment:
+      - NODE_ENV=development
+

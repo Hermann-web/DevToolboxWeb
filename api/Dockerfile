@@ -8,7 +8,8 @@ WORKDIR /app
 COPY . /app/
 
 # Install required Python dependencies
-RUN pip install -r /app/requirements.txt
+RUN pip install uv
+RUN uv pip install -r /app/requirements.txt --python "$(which python3)"
 
 # Expose the port the app runs on
 EXPOSE 8000

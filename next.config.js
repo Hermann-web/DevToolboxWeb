@@ -6,26 +6,28 @@ const nextConfig = {
   },
 
   rewrites: async () => {
+    const fastapiBaseUrl = process.env.FASTAPI_URL || "http://127.0.0.1:8000";
+
     return [
       {
         source: "/api/:path*",
         destination:
           process.env.NODE_ENV === "development"
-            ? "http://127.0.0.1:8000/api/:path*"
+            ? `${fastapiBaseUrl}/api/:path*`
             : "/api/",
       },
       {
         source: "/docs",
         destination:
           process.env.NODE_ENV === "development"
-            ? "http://127.0.0.1:8000/docs"
+            ? `${fastapiBaseUrl}/docs`
             : "/api/docs",
       },
       // {
       //   source: "/openapi.json",
       //   destination:
       //     process.env.NODE_ENV === "development"
-      //       ? "http://127.0.0.1:8000/openapi.json"
+      //       ? `${fastapiBaseUrl}/openapi.json`
       //       : "/api/openapi.json",
       // },
     ];
