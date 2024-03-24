@@ -82,8 +82,8 @@ export default function FileEncodingDetectorComponent({
 
     useEffect(() => {
         try {
-            setEncoding("...");
-            setConfidence(0);
+            setEncoding("waiting ...");
+            setConfidence(-1);
             detectFileEncoding(file, (encoding:string, confidence:number) => {
                 setEncoding(encoding);
                 setConfidence(confidence);
@@ -135,7 +135,7 @@ export default function FileEncodingDetectorComponent({
                     </div>
                 
             </div>
-                <ReadOnlyTextArea value={encoding && `encoding: ${encoding}\nconfidence: ${confidence}`}/>
+                <ReadOnlyTextArea value={encoding && `file: ${file?.name || 'no file'}\nencoding: ${encoding}\nconfidence: ${confidence}`}/>
             </div>
     );
 }
